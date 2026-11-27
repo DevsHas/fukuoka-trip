@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>후쿠오카 여행 일정표</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* 컨셉: 일본 역 안내판과 노선도. 하루가 노선 하나, 들르는 곳이 역, 역 사이 선 모양과 길이가 이동 수단과 시간.
+   왼쪽 정렬 한 줄 컬럼. 카드 없이 괘선과 여백으로만 구분한다. */
+:root{
+  --paper:#ffffff; --panel:#f1f3f6; --ink:#14213d; --sub:#55607a; --rule:#d5dae3;
+  --caution:#ffd43b; --l1:#e8590c; --l2:#b5246a; --l3:#0b7285;
+  --sign-bg:#ffffff; --sign-ink:#14213d;
+  --face:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1320; --panel:#182033; --ink:#eef1f7; --sub:#a3aec5; --rule:#2c3650;
+    --l1:#ff922b; --l2:#f783ac; --l3:#3bc9db; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1320; --panel:#182033; --ink:#eef1f7; --sub:#a3aec5; --rule:#2c3650;
+  --l1:#ff922b; --l2:#f783ac; --l3:#3bc9db; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--face);font-size:16px;line-height:1.65;font-variant-numeric:tabular-nums}
+main{max-width:640px;margin:0 auto;padding:0 18px 64px}
+h1,h2,h3,p,ol,ul,dl,dd{margin:0;padding:0}
+a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px}
+a:focus-visible,input:focus-visible{outline:3px solid var(--l1);outline-offset:2px}
+.mark{background:var(--caution);color:#14213d;font-weight:700;padding:1px 6px;white-space:nowrap}
+
+/* 바로 가기 */
+.jump{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:2px solid var(--ink);margin:0 -18px;padding:0 18px;display:flex;gap:18px;overflow-x:auto}
+.jump a{flex:0 0 auto;text-decoration:none;font-weight:700;font-size:.9375rem;padding:11px 0 9px;display:flex;align-items:center;gap:6px}
+.jump a:hover{text-decoration:underline}
+.jump i{width:11px;height:11px;border-radius:50%;display:inline-block}
+
+/* 역명판 */
+.sign{margin-top:22px;background:var(--sign-bg);color:var(--sign-ink);border:3px solid var(--sign-ink);border-radius:6px;padding:18px 16px 14px;text-align:center}
+.sign .kana{font-size:.9375rem;font-weight:500;letter-spacing:.35em;margin-right:-.35em}
+.sign h1{font-size:3.25rem;font-weight:900;line-height:1.15;letter-spacing:.08em;margin-right:-.08em}
+.sign .roma{font-size:.9375rem;font-weight:500;letter-spacing:.04em}
+.band{position:relative;height:16px;background:#e8590c;margin:12px -16px 10px;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%)}
+.band::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;background:#fff;transform:translate(-50%,-50%)}
+.ends{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;font-size:.875rem;line-height:1.45}
+.ends div:last-child{text-align:right}
+.ends b{display:block;font-size:1.0625rem;font-weight:900}
+.ends span{display:block}
+
+.lead{margin-top:18px;font-size:1.0625rem}
+
+section{margin-top:46px;scroll-margin-top:52px}
+h2{font-size:1.5rem;font-weight:900;line-height:1.3;text-wrap:balance;word-break:keep-all}
+.sub{color:var(--sub);font-size:.9375rem;margin-top:4px}
+
+/* 숙소 정보 */
+.facts{margin-top:14px;border-top:2px solid var(--ink)}
+.facts h3{font-size:.875rem;font-weight:700;color:var(--sub);padding:12px 0 2px}
+.facts div{display:grid;grid-template-columns:6.5rem 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule)}
+.facts b{font-weight:700}
+.facts span small{display:block;color:var(--sub);font-size:.875rem}
+
+/* 예매 목록, 준비물 (체크 목록) */
+.checks{margin-top:14px;border-top:2px solid var(--ink)}
+.checks label{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--rule);cursor:pointer}
+.checks input{width:20px;height:20px;margin:3px 0 0;accent-color:var(--ink)}
+.checks b{font-weight:700;font-size:1.0625rem;line-height:1.45}
+.checks small{display:block;color:var(--sub);font-size:.9375rem}
+.checks .due{display:block;font-size:.875rem;font-weight:700}
+.checks .go{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.9375rem;font-weight:700;margin-top:3px}
+.checks input:checked + span b{text-decoration:line-through;text-decoration-thickness:2px}
+.pack b{font-size:1rem}
+.pack small{font-size:.875rem}
+.pack label{padding:10px 0}
+
+/* 지하철 한 줄 */
+.metro-wrap{margin:16px -8px 0}
+.metro{list-style:none;display:grid;grid-template-columns:1fr 18px 1fr 1fr 1fr 1fr 18px 1fr;position:relative;padding-top:4px}
+.metro::before{content:"";position:absolute;left:calc((100% - 36px)/12);right:calc((100% - 36px)/12);top:9px;height:6px;background:var(--l1)}
+.metro li{position:relative;text-align:center;font-size:.6875rem;line-height:1.4;color:var(--sub);padding:0 1px;min-width:0;word-break:keep-all}
+.metro li::before{content:"";display:block;width:16px;height:16px;margin:0 auto 8px;border-radius:50%;background:var(--paper);border:4px solid var(--l1);position:relative}
+.metro li.minor::before{width:8px;height:8px;border-width:2px;margin:4px auto 12px}
+.metro li.home::before{width:22px;height:22px;margin:-3px auto 5px;background:var(--ink);border-color:var(--l1)}
+.metro b{display:block;color:var(--ink);font-size:.71875rem;font-weight:700;letter-spacing:-.02em}
+.metro .no{display:block;font-weight:700;color:var(--l1)}
+
+/* 범례 */
+.legend{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.8125rem;color:var(--sub)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:34px;height:6px;display:inline-block;--line:var(--ink)}
+.legend .walk{background:radial-gradient(circle,var(--line) 2.4px,transparent 2.9px) left center/9px 6px repeat-x}
+.legend .rail{background:var(--line)}
+.legend .road{background:repeating-linear-gradient(to right,var(--line) 0 9px,transparent 9px 14px)}
+.legend .air{background:linear-gradient(to bottom,var(--line) 0 2px,transparent 2px 4px,var(--line) 4px 6px)}
+
+/* 하루 = 노선 */
+.day{--line:var(--l1)}
+.day.d2{--line:var(--l2)}
+.day.d3{--line:var(--l3)}
+.dayhead{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+.roundel{width:54px;height:54px;border-radius:50%;border:6px solid var(--line);display:grid;place-items:center;font-weight:900;font-size:1.5rem;line-height:1}
+.dayhead .date{font-size:.9375rem;font-weight:700;color:var(--line)}
+.route{list-style:none;margin-top:18px}
+.leg,.stop{display:grid;grid-template-columns:3.1rem 18px 1fr;column-gap:10px}
+.leg i{grid-column:2;justify-self:center;width:6px;height:var(--h)}
+.leg em{grid-column:3;align-self:center;font-style:normal;font-size:.8125rem;font-weight:700;color:var(--line)}
+.m-walk i{background:radial-gradient(circle,var(--line) 2.4px,transparent 2.9px) center top/6px 9px repeat-y}
+.m-rail i{background:var(--line)}
+.m-road i{background:repeating-linear-gradient(to bottom,var(--line) 0 9px,transparent 9px 14px)}
+.m-air i{background:linear-gradient(to right,var(--line) 0 2px,transparent 2px 4px,var(--line) 4px 6px)}
+.stop time{font-weight:900;font-size:1.0625rem;line-height:20px;text-align:right}
+.stop .pole{position:relative;align-self:stretch}
+.stop .pole::before{content:"";display:block;width:18px;height:18px;border-radius:50%;border:4px solid var(--line);background:var(--paper);margin-top:1px;position:relative;z-index:1}
+.stop .pole::after{content:"";position:absolute;left:8px;top:18px;bottom:0;width:2px;background:var(--rule)}
+.route li:last-child .stop .pole::after{display:none}
+.stop .body{padding-bottom:16px;min-width:0}
+.stop h3{font-size:1.0625rem;font-weight:700;line-height:20px;padding-top:1px}
+.stop .memo{color:var(--sub);font-size:.9375rem;margin-top:5px;max-width:34em}
+.stop .mark{display:inline-block;margin-top:6px;font-size:.8125rem;line-height:1.5}
+.ph{display:grid;gap:6px;margin-top:9px}
+.ph.two{grid-template-columns:1fr 1fr}
+.ph.tall{max-width:230px}
+figure{margin:0}
+figure img{display:block;width:100%;max-width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:3px;background:var(--panel)}
+.ph.tall img{aspect-ratio:4/5;object-position:center 30%}
+figcaption{font-size:.75rem;color:var(--sub);margin-top:3px}
+
+.planb{margin-top:14px;border-top:2px solid var(--ink)}
+.planb div{padding:12px 0;border-bottom:1px solid var(--rule)}
+.planb dt{font-weight:700}
+.planb dd{color:var(--sub);font-size:.9375rem;max-width:36em}
+
+footer{margin-top:46px;color:var(--sub);font-size:.8125rem;display:grid;gap:8px}
+
+@media (max-width:420px){
+  .sign h1{font-size:2.75rem}
+  .facts div{grid-template-columns:5.75rem 1fr}
+  .leg,.stop{grid-template-columns:2.9rem 18px 1fr;column-gap:8px}
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="jump" aria-label="바로 가기">
+    <a href="#stay">숙소</a>
+    <a href="#todo">예매</a>
+    <a href="#day1"><i style="background:var(--l1)"></i>금</a>
+    <a href="#day2"><i style="background:var(--l2)"></i>토</a>
+    <a href="#day3"><i style="background:var(--l3)"></i>일</a>
+    <a href="#pack">준비물</a>
+    <a href="#planb">플랜B</a>
+  </nav>
+
+  <header class="sign">
+    <p class="kana" lang="ja">ふくおか</p>
+    <h1>후쿠오카</h1>
+    <p class="roma">Fukuoka</p>
+    <div class="band"></div>
+    <div class="ends">
+      <div><b>김해공항에서</b><span>1월 22일 금</span><span>09:00 출발, 10:00 도착</span><span>트리니티항공 TW231</span></div>
+      <div><b>김해공항으로</b><span>1월 24일 일</span><span>20:00 출발, 21:00 도착</span><span>트리니티항공 TW236</span></div>
+    </div>
+  </header>
+
+  <p class="lead">렌트 없이 기온역 앞 숙소에서 걷거나 지하철로 다니는 일정. 30분 넘게 타는 건 토요일 오전 다자이후 한 번뿐.</p>
+
+  <section id="stay">
+    <h2>숙소는 도미인 하카타 기온</h2>
+    <p class="sub">트윈 2실, 1월 22일부터 2박.</p>
+    <div class="facts">
+      <h3>기본</h3>
+      <div><b>위치</b><span>지하철 기온역에서 걸어서 2분</span></div>
+      <div><b>체크인</b><span>15:00부터</span></div>
+      <div><b>체크아웃</b><span>11:00까지</span></div>
+      <h3>숙박에 포함된 것</h3>
+      <div><b>온천 대욕장</b><span>15:00 ~ 다음 날 10:00<small>천연온천, 사우나 있음. 2층</small></span></div>
+      <div><b>밤참 라멘</b><span>21:30 ~ 23:00<small>야나키소바라는 간장 라멘 반 그릇. 2층 레스토랑</small></span></div>
+      <div><b>짐 보관</b><span>체크인 전, 체크아웃 후 당일<small>프런트에 말하면 맡아 줌</small></span></div>
+      <h3>따로 내는 것</h3>
+      <div><b>조식</b><span>1인 2,500엔<small>06:30 ~ 09:30, 먹을 사람만</small></span></div>
+      <div><b>숙박세 등</b><span>1인 1박 200엔 + 입탕세 50엔<small>체크인할 때 현장에서 냄. 예약 사이트 안내 기준</small></span></div>
+    </div>
+  </section>
+
+  <section id="todo">
+    <h2>예매 목록</h2>
+    <p class="sub">미리 잡아야 하는 건 이 네 가지. 끝낸 건 체크해 두면 이 폰에 저장됨.</p>
+    <div class="checks" id="todoList">
+      <label><input type="checkbox" id="todo-0" data-key="t0"><span>
+        <b>숙소 트윈 2실</b>
+        <small>도미인 하카타 기온, 1월 22일부터 2박</small>
+        <span class="go"><a href="https://dormy-hotels.com/dormyinn/hotels/hakata/floor/">도미인 공식 사이트</a></span>
+      </span></label>
+      <label><input type="checkbox" id="todo-1" data-key="t1"><span>
+        <b>동대구 → 김해공항 버스 4석</b>
+        <small>1월 22일 금 05:20 출발, 06:43 도착. 우등 12,100원</small>
+        <span class="due">예매 열리면 바로</span>
+        <span class="go"><a href="https://www.tmoney.co.kr/aeb/biz/contents/contents3.dev">티머니GO</a><a href="https://www.bustago.or.kr/">버스타고</a></span>
+      </span></label>
+      <label><input type="checkbox" id="todo-2" data-key="t2"><span>
+        <b>모츠나베 도쿠나가야 총본점</b>
+        <small>1월 23일 토 19:00, 4명. 저녁은 2시간제, 15분 늦으면 취소됨</small>
+        <span class="due">12월 안에</span>
+        <span class="go"><a href="https://s.tabelog.com/fukuoka/A4001/A400101/40056861/">타베로그 예약</a></span>
+      </span></label>
+      <label><input type="checkbox" id="todo-3" data-key="t3"><span>
+        <b>Visit Japan Web 입국 등록</b>
+        <small>각자 폰으로 등록하고 QR 받아 두기. 입국심사, 세관이 빨라짐</small>
+        <span class="due">출발 1주 전까지</span>
+        <span class="go"><a href="https://www.vjw.digital.go.jp/">Visit Japan Web</a></span>
+      </span></label>
+    </div>
+    <p class="sub">테츠나베(예약 안 받음), 이치란, 야타이, 다자이후, 후쿠오카 타워는 예매 없이 가면 됨.</p>
+  </section>
+
+  <section id="metro">
+    <h2>지하철 공항선 하나로 거의 다 감</h2>
+    <p class="sub">숙소가 기온역 앞. 텐진까지 2정거장, 오호리 공원까지 4정거장. 공항역은 국내선 쪽이라 국제선은 택시나 직행버스로.</p>
+    <div class="metro-wrap">
+      <ol class="metro">
+        <li><span class="no">K06</span><b>오호리코엔</b>오호리 공원</li>
+        <li class="minor" title="K07 아카사카"></li>
+        <li><span class="no">K08</span><b>텐진</b>쇼핑</li>
+        <li><span class="no">K09</span><b>나카스 카와바타</b>이치란, 야타이</li>
+        <li class="home"><span class="no">K10</span><b>기온</b>숙소</li>
+        <li><span class="no">K11</span><b>하카타</b>기념품</li>
+        <li class="minor" title="K12 히가시히에"></li>
+        <li><span class="no">K13</span><b>공항역</b>국내선 쪽</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>일정표 읽는 법</h2>
+    <p class="sub">동그라미는 들르는 곳, 그 사이 선은 이동. 선이 길수록 오래 걸림.</p>
+    <p class="legend">
+      <span><i class="walk"></i>걷기</span>
+      <span><i class="rail"></i>지하철, 전철</span>
+      <span><i class="road"></i>택시, 버스</span>
+      <span><i class="air"></i>비행기</span>
+    </p>
+  </section>
+
+  <div id="days"></div>
+
+  <section id="pack">
+    <h2>준비물</h2>
+    <div class="checks pack" id="packList"></div>
+  </section>
+
+  <section id="planb">
+    <h2>꼬였을 때</h2>
+    <dl class="planb">
+      <div><dt>귀국편이 늦어서 김해 막차를 놓침</dt><dd>막차는 울산 22:25, 동대구 22:30. 놓치면 택시를 타거나 부산에서 1박. 착륙하면 지연 여부부터 확인.</dd></div>
+      <div><dt>도쿠나가야 예약이 안 됨</dt><dd>토요일은 점심(11:30부터)에도 영업. 아니면 다른 모츠나베집 예약.</dd></div>
+      <div><dt>테츠나베 줄이 너무 김</dt><dd>기온역 근처 이자카야로 바꾸고 교자는 토요일에 다시. 일요일은 휴무.</dd></div>
+      <div><dt>비가 옴</dt><dd>오호리 공원, 타워 대신 캐널시티, 하카타역, 텐진 지하상가.</dd></div>
+      <div><dt>큰 캐리어가 3개를 넘어서 택시 트렁크가 모자람</dt><dd>공항버스로 하카타역까지 간 뒤 10분 걷기. 400엔, 카드로만 탈 수 있음.</dd></div>
+    </dl>
+  </section>
+
+  <footer>
+    <p>2026년 11월 27일에 확인한 정보. 영업시간과 요금은 바뀔 수 있음. 택시비와 이동 시간은 어림값.</p>
+    <p>사진은 Wikimedia Commons의 자유 이용 사진을 크기만 줄여서 씀.
+      <a href="https://commons.wikimedia.org/wiki/File:Tonkotsu_Ramen_Special,_Hakata_Choten,_Paris_001.jpg">라멘</a> Guilhem Vellut, CC BY 2.0.
+      <a href="https://commons.wikimedia.org/wiki/File:Kushida_Shrine_the_Hakata_Wall_and_the_inner_sanctuary_1-41_Kami-kawabatamachi_Hakata-ku_Fukuoka_20231120.jpg">구시다 신사</a> Hirho, CC BY-SA 4.0.
+      <a href="https://commons.wikimedia.org/wiki/File:Canal_City_Hakata_2011.jpg">캐널시티</a> ぱちょぴ, CC BY-SA 3.0.
+      <a href="https://commons.wikimedia.org/wiki/File:Hakata_gion_tetsunabe(Gyoza-Restaurant),Gion_Hakata_%E5%8D%9A%E5%A4%9A%E7%A5%87%E5%9C%92%E9%89%84%E3%81%AA%E3%81%B9_-_panoramio.jpg">테츠나베</a> ktanaka, CC BY 3.0.
+      <a href="https://commons.wikimedia.org/wiki/File:Seiry%C5%AB_Park_Fukuoka_Hakata_Yatai_Nakasu_1-ch%C5%8Dme_Hakata-ku_Fukuoka_20250401_174434.jpg">야타이</a> Hirho, CC BY-SA 4.0.
+      <a href="https://commons.wikimedia.org/wiki/File:Dazaifu_Tenmangu.jpg">다자이후</a> Drivephotographer, CC0.
+      <a href="https://commons.wikimedia.org/wiki/File:Umegaemochi_in_Dazaifu.jpg">우메가에모치</a> Kyoww, 퍼블릭 도메인.
+      <a href="https://commons.wikimedia.org/wiki/File:Motsunabe_002.jpg">모츠나베</a> 徳永涼, CC BY-SA 3.0.
+      <a href="https://commons.wikimedia.org/wiki/File:%C5%8Chori_Park_The_view_S_from_Ukimid%C5%8D_%C5%8Chorik%C5%8Den_Ch%C5%AB%C5%8D-ku_Fukuoka_20260721_172955.jpg">오호리 공원</a> Hirho, CC BY 4.0.
+      <a href="https://commons.wikimedia.org/wiki/File:Fukuoka_Tower_Before_Sunset.jpg">후쿠오카 타워</a> Steffen Flor, CC BY-SA 4.0.
+      라멘과 모츠나베는 그 가게가 아니라 같은 음식의 참고 사진.</p>
+    <p>정보 출처:
+      <a href="https://www.airport.co.kr/gimhae/cms/frCon/index.do?MENU_ID=170">김해공항 대중교통</a>,
+      <a href="https://dormy-hotels.com/dormyinn/hotels/hakata/floor/">도미인 하카타 기온</a>,
+      <a href="https://tabelog.com/fukuoka/A4001/A400101/40000836/">테츠나베</a>,
+      <a href="https://www.crossroadfukuoka.jp/spot/12546">다자이후 텐만구</a>,
+      <a href="https://www.fukuokatower.co.jp/charge/">후쿠오카 타워</a>.</p>
+  </footer>
+</main>
+
+<script>
+const days=[
+ {id:"day1",n:1,date:"1월 22일 금요일",title:"새벽 출발, 숙소 근처 걸어서 구경",
+  lead:"호텔에 짐부터 맡김. 그 뒤로는 전부 걸어서 10분 안쪽.",
+  stops:[
+   {t:"05:20",h:"동대구 복합환승센터",m:"공항버스 우등 12,100원. 첫차는 05:00. 승희는 전날 저녁 대구로 올라가서 같이 탐.",mark:"미리 예매"},
+   {t:"06:43",h:"김해공항",leg:["road",83,"공항버스 1시간 23분"],m:"출발 2시간 전 도착이라 수속 여유 있음."},
+   {t:"10:00",h:"후쿠오카공항 국제선",leg:["air",60,"TW231, 09:00 출발"],m:"입국심사와 짐 찾기에 30분~1시간."},
+   {t:"11:10",h:"호텔에 짐 맡기기",leg:["road",20,"택시 약 20분"],m:"택시 1대에 넷 다 탐. 약 1,500엔, 1인 400엔꼴이라 버스랑 비슷. 체크인은 15:00부터."},
+   {t:"11:30",h:"점심: 이치란 본사총본점",leg:["walk",10,"걸어서 약 10분"],m:"24시간 영업. 점심시간 전에 가면 줄 짧음.",ph:[["ramen","돈코츠 라멘, 참고 사진"]]},
+   {t:"12:40",h:"가와바타 상점가, 구시다 신사",leg:["walk",5,"걸어서"],m:"지붕 있는 상점가라 비 와도 괜찮음.",ph:[["kushida","구시다 신사"]]},
+   {t:"13:40",h:"캐널시티 하카타",leg:["walk",5,"걸어서 약 5분"],m:"쇼핑, 카페.",ph:[["canal","캐널시티 하카타"]]},
+   {t:"15:30",h:"호텔 체크인, 대욕장",leg:["walk",7,"걸어서"],m:"새벽에 나왔으니 여기서 한숨 자도 됨."},
+   {t:"16:50",h:"저녁: 하카타 기온 테츠나베",leg:["walk",3,"걸어서 약 3분"],m:"철판 교자집. 17:00 오픈인데 예약을 안 받아서 오픈 전에 줄 서야 함.",mark:"예약 불가, 줄 서기",ph:[["tetsunabe","테츠나베 가게 앞"]]},
+   {t:"18:30",h:"나카스 강변 야타이",leg:["walk",10,"걸어서 약 10분"],m:"포장마차 거리. 현금 필요, 1인 1메뉴 이상 주문.",ph:[["yatai","나카스 강변 야타이"]]},
+   {t:"21:30",h:"호텔 밤참 라멘, 대욕장",leg:["walk",10,"걸어서"]}
+  ]},
+ {id:"day2",n:2,date:"1월 23일 토요일",title:"오전 다자이후, 오후 텐진",
+  lead:"하나뿐인 근교 일정. 사람 적은 오전에 다녀옴.",
+  stops:[
+   {t:"08:30",h:"아침",m:"호텔 조식 2,500엔. 편의점이나 카페도 괜찮음."},
+   {t:"09:15",h:"텐진",leg:["rail",5,"지하철 2정거장"],m:"니시테츠 후쿠오카(텐진)역까지 걸어서 약 7분."},
+   {t:"10:10",h:"다자이후 텐만구, 참배길",leg:["rail",40,"니시테츠 30~40분, 후츠카이치에서 환승"],m:"편도 약 480엔, 입장 무료. 참배길에서 갓 구운 우메가에모치(팥 든 찹쌀떡) 먹기.",ph:[["dazaifu","다자이후 텐만구"],["umegae","우메가에모치"]]},
+   {t:"13:00",h:"텐진에서 점심",leg:["rail",40,"니시테츠 약 40분"],m:"예약 없이 갈 만한 식당 많음."},
+   {t:"14:00",h:"텐진 쇼핑",leg:["walk",5,"걸어서"],m:"지하상가, 백화점."},
+   {t:"17:00",h:"호텔에서 쉬기",leg:["rail",5,"지하철 2정거장"],m:"쇼핑백 내려놓고 대욕장."},
+   {t:"19:00",h:"저녁: 모츠나베 도쿠나가야 총본점",leg:["walk",5,"걸어서"],m:"곱창전골. 2시간제, 16시 이후엔 자릿세 1인 380엔.",mark:"예약 필수",ph:[["motsunabe","모츠나베, 참고 사진"]]},
+   {t:"21:30",h:"호텔 밤참 라멘, 대욕장",leg:["walk",5,"걸어서"]}
+  ]},
+ {id:"day3",n:3,date:"1월 24일 일요일",title:"짐은 호텔에 맡기고 가볍게",
+  lead:"비행기가 20:00라 하루가 거의 통째로 남음. 저녁에 짐 찾아서 공항으로.",
+  stops:[
+   {t:"10:30",h:"체크아웃, 짐 맡기기",m:"체크아웃 후에도 당일은 프런트에서 맡아 줌."},
+   {t:"11:00",h:"오호리 공원, 마이즈루 공원",leg:["rail",10,"지하철 4정거장, 약 10분"],m:"호수 한 바퀴, 후쿠오카성터 산책. 매화가 피기 시작할 때.",ph:[["ohori","오호리 공원"]]},
+   {t:"12:30",h:"점심",leg:["walk",5,"걸어서"],m:"오호리 공원 근처나 텐진."},
+   {t:"14:00",h:"후쿠오카 타워, 모모치 해변",leg:["road",15,"택시 약 15분"],m:"전망대 어른 1,000엔, 현장 결제. 바닷바람 차가움.",ph:[["tower","후쿠오카 타워"]],tall:1},
+   {t:"15:30",h:"하카타역 기념품",leg:["road",25,"택시나 버스 약 25분"],m:"명란, 과자류."},
+   {t:"16:45",h:"호텔에서 짐 찾기",leg:["walk",10,"걸어서 약 10분"]},
+   {t:"17:30",h:"후쿠오카공항 국제선",leg:["road",20,"택시 약 20분, 17:00 출발"],m:"일요일 저녁은 길이 막힐 수 있음. 수속하고 공항에서 저녁."},
+   {t:"21:00",h:"김해공항",leg:["air",60,"TW236, 20:00 출발"],m:"입국과 짐 찾기에 30분~1시간. 기내 수하물만 들면 제일 빠름."},
+   {t:"22:25",h:"울산행 막차 (동대구행은 22:30)",m:"국제선 1층 5번 승차장. 울산 8,800원, 동대구 12,100원(심야 14,500원).",mark:"막차"}
+  ]}
+];
+const packs=[
+ ["여권","유효기간 확인"],["엔화 현금 조금","야타이는 카드 안 되는 곳 있음"],["해외 결제 카드","공항버스, 지하철은 카드 터치로 탐"],
+ ["데이터","eSIM이나 로밍"],["보조배터리","위탁 말고 기내로"],["따뜻한 겉옷","1월 낮 최고 10℃ 안팎, 바닷가는 더 추움"],
+ ["앱 세 개","구글 지도, 파파고, GO(일본 택시 호출)"]
+];
+
+const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
+const legH=min=>Math.max(22,Math.min(112,Math.round(16+min*1.15)));
+
+const host=document.getElementById("days");
+days.forEach(d=>{
+  const s=el("section","day d"+d.n);s.id=d.id;
+  const head=el("div","dayhead");
+  head.appendChild(el("span","roundel",String(d.n)));
+  const hd=el("div");hd.appendChild(el("p","date",d.date));hd.appendChild(el("h2",null,d.title));
+  head.appendChild(hd);s.appendChild(head);
+  s.appendChild(el("p","sub",d.lead));
+  const ol=el("ol","route");
+  d.stops.forEach(st=>{
+    const li=el("li");
+    if(st.leg){
+      const leg=el("div","leg m-"+st.leg[0]);
+      const bar=el("i");bar.style.setProperty("--h",legH(st.leg[1])+"px");
+      leg.appendChild(bar);leg.appendChild(el("em",null,st.leg[2]));li.appendChild(leg);
+    }
+    const row=el("div","stop");
+    row.appendChild(el("time",null,st.t));
+    row.appendChild(el("span","pole"));
+    const body=el("div","body");
+    body.appendChild(el("h3",null,st.h));
+    if(st.mark)body.appendChild(el("span","mark",st.mark));
+    if(st.m)body.appendChild(el("p","memo",st.m));
+    if(st.ph){
+      const g=el("div","ph"+(st.ph.length>1?" two":"")+(st.tall?" tall":""));
+      st.ph.forEach(([f,cap])=>{
+        const fig=el("figure");const im=el("img");im.src="img/"+f+".jpg";im.alt=cap;im.loading="lazy";
+        fig.appendChild(im);fig.appendChild(el("figcaption",null,cap));g.appendChild(fig);
+      });
+      body.appendChild(g);
+    }
+    row.appendChild(body);li.appendChild(row);ol.appendChild(li);
+  });
+  s.appendChild(ol);host.appendChild(s);
+});
+
+const pl=document.getElementById("packList");
+packs.forEach(([name,note],i)=>{
+  const lab=el("label");const cb=el("input");cb.type="checkbox";cb.id="pack-"+i;cb.dataset.key="p"+i;
+  const txt=el("span");txt.appendChild(el("b",null,name));txt.appendChild(el("small",null,note));
+  lab.appendChild(cb);lab.appendChild(txt);pl.appendChild(lab);
+});
+
+let saved={};
+try{saved=JSON.parse(localStorage.getItem("fuk-checks")||"{}")}catch(e){saved={}}
+document.querySelectorAll("input[data-key]").forEach(cb=>{
+  cb.checked=!!saved[cb.dataset.key];
+  cb.addEventListener("change",()=>{saved[cb.dataset.key]=cb.checked;try{localStorage.setItem("fuk-checks",JSON.stringify(saved))}catch(e){}});
+});
+</script>
+</body>
+</html>
